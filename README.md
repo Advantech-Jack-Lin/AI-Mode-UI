@@ -53,6 +53,22 @@ ClientApp/
 3. **Open the app:**
    Visit [http://localhost:5173](http://localhost:5173) in your browser. No backend/server setup required.
 
+## 📦 Build & Preview
+
+1. **Generate a production build:**
+
+   ```bash
+   npm run build
+   ```
+
+2. **Preview the build locally:**
+
+   ```bash
+   npm run preview
+   ```
+
+   Visit [http://localhost:4173](http://localhost:4173) to test the production build.
+
 ---
 
 ## 🧑‍💻 How to Add Features or Fix Bugs
