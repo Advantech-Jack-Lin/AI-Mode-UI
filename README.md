@@ -52,6 +52,11 @@ ClientApp/
    ```
 3. **Open the app:**
    Visit [http://localhost:5173](http://localhost:5173) in your browser. No backend/server setup required.
+4. **Run tests:**
+
+   ```bash
+   npm test
+   ```
 
 ---
 
