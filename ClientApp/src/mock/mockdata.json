@@ -1,0 +1,14 @@
+[
+  { "id": "P1", "name": "Canon EOS R6", "price": 2499, "rating": 4.8, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=1" },
+  { "id": "P2", "name": "Sony A7 IV",  "price": 2699, "rating": 4.7, "stock": "Out of Stock", "image": "https://picsum.photos/200/300?random=2" },
+  { "id": "P3", "name": "Nikon Z6 II", "price": 1999, "rating": 4.6, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=3" },
+  { "id": "P4", "name": "Fujifilm X-T4", "price": 1699, "rating": 4.5, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=4" },
+  { "id": "P5", "name": "Panasonic S5", "price": 1799, "rating": 4.4, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=5" },
+  { "id": "P6", "name": "Olympus OM-D E-M1", "price": 1499, "rating": 4.3, "stock": "Out of Stock", "image": "https://picsum.photos/200/300?random=6" },
+  { "id": "P7", "name": "Leica SL2", "price": 5999, "rating": 4.9, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=7" },
+  { "id": "P8", "name": "Pentax K-1 II", "price": 1799, "rating": 4.2, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=8" },
+  { "id": "P9", "name": "Sigma fp L", "price": 2499, "rating": 4.1, "stock": "Out of Stock", "image": "https://picsum.photos/200/300?random=9" },
+  { "id": "P10", "name": "Hasselblad X1D II", "price": 9399, "rating": 4.7, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=10" },
+  { "id": "P11", "name": "Canon EOS RP", "price": 999, "rating": 4.0, "stock": "In Stock", "image": "https://picsum.photos/200/300?random=11" },
+  { "id": "P12", "name": "Sony ZV-E10", "price": 699, "rating": 4.3, "stock": "Out of Stock", "image": "https://picsum.photos/200/300?random=12" }
+]
