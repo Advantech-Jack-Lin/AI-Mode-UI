@@ -1,5 +1,10 @@
 import productData from './mockdata.json';
 
+const sampleFiles = [
+  { name: 'catalog.pdf', url: 'https://example.com/catalog.pdf' },
+  { name: 'spec-sheet.pdf', url: 'https://example.com/spec-sheet.pdf' }
+];
+
 export interface StreamFrame {
   channel: 'chat' | 'artifact';
   delta?: string;
@@ -27,6 +32,7 @@ export function sendUserMessage(userText: string, onFrame: (f: StreamFrame) => v
     { delayMs: 100, frame: { channel: 'artifact', artifactId: 'prod_cards', op: 'replace', value: getRandomProducts(6) } },
     { delayMs: 140, frame: { channel: 'chat', delta: 'recommendations.' } },
     { delayMs: 60,  frame: { channel: 'chat', delta: '', isFinal: true } },
+    { delayMs: 120, frame: { channel: 'artifact', artifactId: 'file_list', op: 'replace', value: sampleFiles } },
   ];
   let t = 0;
   scenario.forEach(({ delayMs, frame }) => {
