@@ -13,6 +13,7 @@ This project is a **frontend-only** demonstration of a dual-panel, real-time AI 
 - **Randomized responses:** Each chat request streams a random scenario from local mock data for realism.
 - **Maintainable codebase:** Modern Vue 3 + Vite + TypeScript structure, composables, and clear separation of concerns.
 - **Keyword demos:** Include `product` or `file` in your question to stream example product cards or downloadable files.
+- **Fresh artifacts:** Each new question replaces previously streamed artifacts for clarity.
 
 ---
 

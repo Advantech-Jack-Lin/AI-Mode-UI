@@ -50,4 +50,17 @@ describe('useStreamHub extra operations', () => {
     expect(chatSegments.value).toEqual([]);
     expect(Object.keys(artifactData).length).toBe(0);
   });
+
+  it('clears previous artifacts when sending a new message', () => {
+    frames.push({ channel: 'artifact', artifactId: 'old', op: 'replace', value: [1] });
+    const hub = useStreamHub();
+    hub.sendMessage('first');
+    expect(artifactData['old']).toEqual([1]);
+
+    frames.length = 0;
+    frames.push({ channel: 'artifact', artifactId: 'new', op: 'replace', value: [2] });
+    hub.sendMessage('second');
+    expect(artifactData.hasOwnProperty('old')).toBe(false);
+    expect(artifactData['new']).toEqual([2]);
+  });
 });
