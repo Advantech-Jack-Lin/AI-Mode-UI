@@ -207,7 +207,7 @@ function getArtifactType(key: string) {
 }
 
 .artifacts-grid.product-row .artifact-card {
-  min-width: 320px;
+  min-width: 480px;
   flex: 0 0 auto;
 }
 
@@ -216,11 +216,11 @@ function getArtifactType(key: string) {
 }
 
 .artifacts-grid.view-grid {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
 }
 
 .artifacts-grid.view-masonry {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
   grid-auto-rows: masonry; /* Future CSS feature */
 }
 

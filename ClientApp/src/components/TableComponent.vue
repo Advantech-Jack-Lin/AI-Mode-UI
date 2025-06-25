@@ -22,7 +22,7 @@ const headers = rows.length ? Object.keys(rows[0]) : [];
 <style scoped>
 .table-component {
   width: 100%;
-  min-width: 320px;
+  min-width: 480px;
   border-collapse: collapse;
 }
 .table-component th,
