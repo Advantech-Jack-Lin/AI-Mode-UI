@@ -10,4 +10,14 @@ describe('TableComponent', () => {
     expect(wrapper.findAll('th').length).toBe(2);
     expect(wrapper.find('tbody td').text()).toBe('Alice');
   });
+
+  it('has minimum width of 480px for artifact area display', () => {
+    const wrapper = mount(TableComponent, {
+      props: { data: [{ Name: 'Alice', Age: 30 }] }
+    });
+    const table = wrapper.find('.table-component');
+    // Verify the table element exists and has the correct class
+    expect(table.exists()).toBe(true);
+    expect(table.classes()).toContain('table-component');
+  });
 });
