@@ -14,6 +14,7 @@ const sampleMedia = [
   { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm' }
 ];
 
+
 export interface StreamFrame {
   channel: 'chat' | 'artifact';
   delta?: string;
@@ -59,6 +60,7 @@ export function sendUserMessage(userText: string, onFrame: (f: StreamFrame) => v
       { delayMs: 140, frame: { channel: 'chat', delta: 'recommendations.' } },
       { delayMs: 60,  frame: { channel: 'chat', delta: '', isFinal: true } }
     );
+
   } else if (lower.includes('table')) {
     scenario.push(
       { delayMs: 160, frame: { channel: 'chat', delta: 'is ' } },
@@ -76,6 +78,7 @@ export function sendUserMessage(userText: string, onFrame: (f: StreamFrame) => v
       { delayMs: 60,  frame: { channel: 'chat', delta: '', isFinal: true } },
       { delayMs: 120, frame: { channel: 'artifact', artifactId: 'media_gallery', op: 'replace', value: sampleMedia } }
     );
+
   } else {
     scenario.push(
       { delayMs: 180, frame: { channel: 'chat', delta: 'is ' } },

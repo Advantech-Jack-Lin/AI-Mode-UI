@@ -33,4 +33,5 @@ describe('mockStreamApi keyword scenarios', () => {
     vi.runAllTimers();
     expect(frames.some(f => f.artifactId === 'media_gallery')).toBe(true);
   });
+
 });
