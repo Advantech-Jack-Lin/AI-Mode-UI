@@ -19,4 +19,19 @@ describe('mockStreamApi keyword scenarios', () => {
     expect(frames.some(f => f.artifactId === 'file_list')).toBe(true);
     expect(frames.some(f => f.artifactId === 'prod_cards')).toBe(false);
   });
+
+  it('returns table artifacts when question mentions table', () => {
+    const frames: any[] = [];
+    sendUserMessage('show table result', f => frames.push(f));
+    vi.runAllTimers();
+    expect(frames.some(f => f.artifactId === 'table_data')).toBe(true);
+  });
+
+  it('returns media artifacts when question mentions video', () => {
+    const frames: any[] = [];
+    sendUserMessage('I want a video', f => frames.push(f));
+    vi.runAllTimers();
+    expect(frames.some(f => f.artifactId === 'media_gallery')).toBe(true);
+  });
+
 });

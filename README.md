@@ -8,11 +8,13 @@ This project is a **frontend-only** demonstration of a dual-panel, real-time AI 
 
 - **Frontend-only:** No backend required; all data and streaming are simulated with mock APIs.
 - **Dual-panel UI:** Live chat (streaming token-by-token) and artifacts (cards, tables, etc.), styled with Bootstrap 5.
-- **Dynamic artifacts:** Registry pattern allows easy addition of new artifact types (e.g., product cards, file downloads, charts).
+
+- **Dynamic artifacts:** Registry pattern allows easy addition of new artifact types (e.g., product cards, file downloads, tables, media galleries).
 - **Theme switch:** Toggle light/dark mode using Bootstrap 5 utility classes.
 - **Randomized responses:** Each chat request streams a random scenario from local mock data for realism.
 - **Maintainable codebase:** Modern Vue 3 + Vite + TypeScript structure, composables, and clear separation of concerns.
-- **Keyword demos:** Include `product` or `file` in your question to stream example product cards or downloadable files.
+- **Keyword demos:** Include `product`, `file`, `table`, or `video` in your question to stream example product cards, downloadable files, tables, or media content.
+
 - **Fresh artifacts:** Each new question replaces previously streamed artifacts for clarity.
 
 ---
@@ -26,8 +28,10 @@ ClientApp/
 │   │   ├── ChatPanel.vue        # Chat panel (left)
 │   │   ├── ArtifactsPane.vue    # Artifacts panel (right)
 │   │   ├── ThemeToggle.vue      # Theme switch button
-│   │   ├── ProductCard.vue      # Example artifact component
-│   │   └── FileDownload.vue     # File download artifact component
+│   │   ├── ProductCard.vue      # Example product card component
+│   │   ├── FileDownload.vue     # File download artifact component
+│   │   ├── TableComponent.vue   # Table artifact component
+│   │   └── MediaGallery.vue     # Media gallery artifact component
 │   ├── artifactRegistry.ts      # artifactId/type → Vue component registry
 │   ├── composables/
 │   │   └── useStreamHub.ts      # Streaming logic (mock API integration)
