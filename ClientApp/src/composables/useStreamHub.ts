@@ -6,6 +6,8 @@ export const artifactData = reactive<Record<string, any>>({});
 
 export function useStreamHub() {
   function sendMessage(text: string) {
+    // Replace artifacts from any prior request
+    for (const k in artifactData) delete artifactData[k];
     // Add user message as a new bubble
     chatSegments.value.push(text);
     // Add an empty assistant bubble for the response
