@@ -19,9 +19,14 @@ defineProps<{ data: Array<{ type: string; url: string; alt?: string }> }>();
   gap: 12px;
 }
 .media-item img,
-.media-item video,
 .media-item audio {
   max-width: 240px;
+  border-radius: 8px;
+}
+
+.media-item video {
+  min-width: 320px;
+  max-width: 100%;
   border-radius: 8px;
 }
 </style>
