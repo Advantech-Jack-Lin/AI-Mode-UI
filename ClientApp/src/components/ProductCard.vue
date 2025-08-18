@@ -2,7 +2,7 @@
   <div class="product-showcase">
     <div class="product-card" v-for="product in data" :key="product.id">
       <div class="product-image-wrapper">
-        <img :src="product.image || 'https://picsum.photos/320/200'" class="product-image" :alt="product.name" @error="event => event.target.src = 'https://placehold.co/320x200?text=Product'" />
+        <img :src="product.image || 'https://picsum.photos/320/200'" class="product-image" :alt="product.name" @error="event => (event.target as HTMLImageElement).src = 'https://placehold.co/320x200?text=Product'" />
         <div class="product-badge" v-if="product.stock !== 'In Stock'">
           {{ product.stock }}
         </div>

@@ -37,45 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, h } from 'vue';
+import { ref } from 'vue';
 import { artifactData } from '../composables/useStreamHub';
 import { artifactRegistry } from '../artifactRegistry';
 
 const activeTab = ref('grid');
-
-const viewTabs = [
-  { 
-    id: 'list', 
-    label: 'List', 
-    icon: () => h('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'currentColor' }, 
-      h('path', { d: 'M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z' })
-    )
-  },
-  { 
-    id: 'grid', 
-    label: 'Grid', 
-    icon: () => h('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'currentColor' }, 
-      h('path', { d: 'M3 3v8h8V3H3zm6 6H5V5h4v4zm-6 4v8h8v-8H3zm6 6H5v-4h4v4zm4-16v8h8V3h-8zm6 6h-4V5h4v4zm-6 4v8h8v-8h-8zm6 6h-4v-4h4v4z' })
-    )
-  },
-  { 
-    id: 'masonry', 
-    label: 'Masonry', 
-    icon: () => h('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'currentColor' }, 
-      h('path', { d: 'M3 3v8h4V3H3zm6 0v12h4V3H9zm6 0v6h4V3h-4zM3 13v8h4v-8H3zm12 0v8h4v-8h-4z' })
-    )
-  }
-];
-
-function getArtifactType(key: string) {
-  const typeMap: Record<string, string> = {
-    'ProductCard': 'Product',
-    'ChartComponent': 'Chart',
-    'TableComponent': 'Table',
-    'CodeBlock': 'Code'
-  };
-  return typeMap[key] || 'Artifact';
-}
 </script>
 
 <style scoped>
