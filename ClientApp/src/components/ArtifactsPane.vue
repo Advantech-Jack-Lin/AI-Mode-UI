@@ -4,7 +4,7 @@
 
     <!-- Content area -->
     <div class="artifacts-content">
-      <div v-if="Object.keys(artifactData).length === 0" class="empty-state">
+      <div v-if="!hasArtifacts && !isStreaming" class="empty-state">
         <div class="empty-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" opacity="0.5">
             <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
@@ -16,32 +16,42 @@
         </div>
       </div>
 
-      <div v-else :class="['artifacts-grid', `view-${activeTab}`,
-  Object.keys(artifactData).some(k => k === 'ProductCard' || k === 'prod_cards') ? 'product-row' : '']">
-        <div 
+      <div v-else-if="!hasArtifacts && isStreaming" class="loading-state">
+        <LoadingSpinner message="Generating content..." size="32px" />
+      </div>
+
+      <div v-else :class="['artifacts-grid', `view-${activeTab}`, { 'product-row': isProductRow }]">
+        <ErrorBoundary
           v-for="(data, key) in artifactData" 
-          :key="key" 
+          :key="key"
           class="artifact-card"
         >
-          
           <div class="artifact-content">
             <component
               :is="artifactRegistry[key]"
               :data="data"
             />
           </div>
-        </div>
+        </ErrorBoundary>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { artifactData } from '../composables/useStreamHub';
+import { ref, computed } from 'vue';
+import { useStreamHub } from '../composables/useStreamHub';
 import { artifactRegistry } from '../artifactRegistry';
+import ErrorBoundary from './ErrorBoundary.vue';
+import LoadingSpinner from './LoadingSpinner.vue';
 
 const activeTab = ref('grid');
+const { artifactData, isStreaming } = useStreamHub();
+
+const hasArtifacts = computed(() => Object.keys(artifactData).length > 0);
+const isProductRow = computed(() => 
+  Object.keys(artifactData).some(k => k === 'ProductCard' || k === 'prod_cards')
+);
 </script>
 
 <style scoped>
@@ -155,6 +165,15 @@ const activeTab = ref('grid');
   color: var(--app-muted);
   margin: 0;
   max-width: 400px;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 2rem;
 }
 
 /* Artifacts Grid */

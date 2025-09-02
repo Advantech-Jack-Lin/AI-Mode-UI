@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:analyze": "vue-tsc -b && vite build --mode analyze",
+    "build:report": "npm run build && npx vite-bundle-analyzer dist"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "vue": "^3.5.13"
   },
   "devDependencies": {
@@ -21,8 +24,10 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "jsdom": "^26.1.0",
+    "rollup-plugin-visualizer": "^6.0.3",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
+    "vite-bundle-analyzer": "^1.2.3",
     "vitest": "^3.2.2",
     "vue-tsc": "^2.2.10"
   }

@@ -11,28 +11,41 @@
     </div>
     
     <!-- Chat Messages -->
-    <div class="chat-messages">
-      <div v-for="(msg, idx) in chatSegments" :key="idx" class="message-group">
-        <div class="message user-message" v-if="idx % 2 === 0">
-          <div class="message-avatar">
-            <img src="https://ui-avatars.com/api/?name=User&background=6c757d&color=fff&size=28" alt="User" />
+    <ErrorBoundary>
+      <div class="chat-messages">
+        <div v-for="msg in messages" :key="msg.id" class="message-group">
+          <div class="message user-message" v-if="msg.role === 'user'">
+            <div class="message-avatar">
+              <img :src="getAvatarUrl('user')" alt="User" loading="lazy" />
+            </div>
+            <div class="message-content">
+              <div class="message-text">{{ msg.content }}</div>
+            </div>
           </div>
-          <div class="message-content">
-            <div class="message-text">{{ msg }}</div>
-          </div>
-        </div>
-        <div class="message assistant-message" v-else>
-          <div class="message-avatar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <div class="message-content">
-            <div class="message-text">{{ msg }}</div>
+          <div class="message assistant-message" v-else>
+            <div class="message-avatar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="message-content">
+              <div class="message-text">{{ msg.content }}</div>
+              <LoadingSpinner 
+                v-if="msg.isStreaming && !msg.content" 
+                :inline="true" 
+                message="Thinking..." 
+                size="16px"
+              />
+              <div v-else-if="msg.isStreaming" class="typing-indicator">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ErrorBoundary>
     
     <!-- Chat Input -->
     <div class="chat-input-area">
@@ -41,11 +54,20 @@
           <input 
             v-model="input" 
             class="message-input" 
-            placeholder="Message AI Mode UI..."
+            :placeholder="APP_CONFIG.chat.placeholderText"
             type="text"
+            :disabled="isStreaming"
+            autocomplete="off"
+            maxlength="1000"
           />
-          <button class="send-button" type="submit" :disabled="!input.trim()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button 
+            class="send-button" 
+            type="submit" 
+            :disabled="!input.trim() || isStreaming"
+            :title="isStreaming ? 'Please wait...' : 'Send message'"
+          >
+            <LoadingSpinner v-if="isStreaming" :inline="true" size="16px" />
+            <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2" fill="none"/>
               <polyline points="8 12 12 8 16 12" />
               <line x1="12" y1="8" x2="12" y2="16" />
@@ -58,11 +80,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStreamHub } from '../composables/useStreamHub';
+import LoadingSpinner from './LoadingSpinner.vue';
+import ErrorBoundary from './ErrorBoundary.vue';
+import { APP_CONFIG } from '../config';
 
-const { chatSegments, sendMessage, resetAll } = useStreamHub();
+const { chatSegments, sendMessage, resetAll, isStreaming } = useStreamHub();
 const input = ref('');
+
+// Create message objects for better performance and features
+const messages = computed(() => {
+  return chatSegments.value.map((content, index) => ({
+    id: `msg-${index}`,
+    content,
+    role: index % 2 === 0 ? 'user' : 'assistant',
+    isStreaming: index === chatSegments.value.length - 1 && isStreaming.value && index % 2 === 1
+  }));
+});
 
 function onSend() {
   if (input.value.trim()) {
@@ -74,6 +109,12 @@ function onSend() {
 function onNewChat() {
   resetAll();
   input.value = '';
+}
+
+function getAvatarUrl(role: string) {
+  return role === 'user' 
+    ? APP_CONFIG.ui.fallbackImages.user
+    : undefined; // Assistant uses SVG icon
 }
 </script>
 
@@ -323,5 +364,47 @@ function onNewChat() {
 .send-button:not(:disabled):hover {
   background: var(--app-primary);
   transform: scale(1.05);
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  margin-top: 4px;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--app-muted);
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+/* Input disabled state */
+.message-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>

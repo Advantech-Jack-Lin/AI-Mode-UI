@@ -1,22 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import ChatPanel from './components/ChatPanel.vue';
 import ArtifactsPane from './components/ArtifactsPane.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
+import { globalTheme } from './composables/useTheme';
 
-const isDark = ref(false); // Default to light theme
-function toggleTheme() {
-  isDark.value = !isDark.value;
-  updateThemeClasses();
-}
-
-function updateThemeClasses() {
-  document.documentElement.setAttribute('data-bs-theme', isDark.value ? 'dark' : 'light');
-  document.body.className = isDark.value ? 'bg-dark text-light' : 'bg-light text-dark';
-}
+const { isDark, toggleTheme, initializeTheme } = globalTheme;
 
 onMounted(() => {
-  updateThemeClasses();
+  initializeTheme();
 });
 </script>
 
@@ -34,7 +26,6 @@ onMounted(() => {
       </div>
       <div class="header-right">
         <ThemeToggle :isDark="isDark" @toggle="toggleTheme" />
-        
       </div>
     </header>
 

@@ -1,28 +1,28 @@
 import productData from './mockdata.json';
+import type { StreamFrame, FileDownload, TableData, MediaItem } from '../types';
+import { APP_CONFIG } from '../config';
 
-const sampleFiles = [
-  { name: 'catalog.pdf', url: 'https://example.com/catalog.pdf' },
-  { name: 'spec-sheet.pdf', url: 'https://example.com/spec-sheet.pdf' }
+const sampleFiles: FileDownload[] = [
+  { name: 'catalog.pdf', url: 'https://example.com/catalog.pdf', size: '2.3 MB', type: 'PDF' },
+  { name: 'spec-sheet.pdf', url: 'https://example.com/spec-sheet.pdf', size: '1.8 MB', type: 'PDF' }
 ];
 
-const sampleTable = [
-  { Name: 'Alice', Age: 30 },
-  { Name: 'Bob', Age: 25 }
+const sampleTable: TableData[] = [
+  { Name: 'Alice', Age: 30, Department: 'Engineering' },
+  { Name: 'Bob', Age: 25, Department: 'Design' },
+  { Name: 'Carol', Age: 28, Department: 'Product' }
 ];
 
-const sampleMedia = [
-  { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm' }
+const sampleMedia: MediaItem[] = [
+  { 
+    type: 'video', 
+    url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm',
+    title: 'Demo Video',
+    description: 'A sample video for demonstration'
+  }
 ];
 
 
-export interface StreamFrame {
-  channel: 'chat' | 'artifact';
-  delta?: string;
-  isFinal?: boolean;
-  artifactId?: string;
-  op?: 'replace' | 'append' | 'remove';
-  value?: any;
-}
 
 const getRandomProducts = (n: number) => {
   const arr = [...productData];
@@ -33,8 +33,9 @@ const getRandomProducts = (n: number) => {
   return arr.slice(0, n);
 };
 
-export function sendUserMessage(userText: string, onFrame: (f: StreamFrame) => void) {
+export function sendUserMessage(userText: string, onFrame: (f: StreamFrame) => void): void {
   const scenario: Array<{ delayMs: number; frame: StreamFrame }> = [];
+  const speed = APP_CONFIG.chat.typingSpeed.default;
 
   // All scenarios begin with "Here" for demo consistency
   scenario.push({ delayMs: 0, frame: { channel: 'chat', delta: 'Here ' } });
@@ -43,13 +44,13 @@ export function sendUserMessage(userText: string, onFrame: (f: StreamFrame) => v
 
   if (lower.includes('file')) {
     scenario.push(
-      { delayMs: 160, frame: { channel: 'chat', delta: 'are ' } },
-      { delayMs: 120, frame: { channel: 'chat', delta: 'the ' } },
-      { delayMs: 140, frame: { channel: 'chat', delta: 'files ' } },
-      { delayMs: 120, frame: { channel: 'chat', delta: 'you ' } },
-      { delayMs: 100, frame: { channel: 'chat', delta: 'requested.' } },
-      { delayMs: 60,  frame: { channel: 'chat', delta: '', isFinal: true } },
-      { delayMs: 120, frame: { channel: 'artifact', artifactId: 'file_list', op: 'replace', value: sampleFiles } }
+      { delayMs: speed + 40, frame: { channel: 'chat', delta: 'are ' } },
+      { delayMs: speed, frame: { channel: 'chat', delta: 'the ' } },
+      { delayMs: speed + 20, frame: { channel: 'chat', delta: 'files ' } },
+      { delayMs: speed, frame: { channel: 'chat', delta: 'you ' } },
+      { delayMs: speed - 20, frame: { channel: 'chat', delta: 'requested.' } },
+      { delayMs: speed - 60, frame: { channel: 'chat', delta: '', isFinal: true } },
+      { delayMs: speed, frame: { channel: 'artifact', artifactId: 'file_list', op: 'replace', value: sampleFiles } }
     );
   } else if (lower.includes('product')) {
     scenario.push(
