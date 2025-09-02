@@ -65,7 +65,11 @@ export default defineConfig(({ mode }) => ({
   // Dependency optimization
   optimizeDeps: {
     include: ['vue', 'bootstrap/dist/css/bootstrap.min.css'],
-    // Exclude dependencies that should not be pre-bundled
     exclude: []
+  },
+
+  // Define for service worker
+  define: {
+    __SW_ENABLED__: JSON.stringify(true)
   }
 }))
